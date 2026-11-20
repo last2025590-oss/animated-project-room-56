@@ -28,3 +28,8 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+<!-- AGENT-MEMORY:BEGIN -->
+- The imported room uses vanilla Three.js; preserve its renderer and expose readiness only after managed assets and a lit character frame render, preventing premature loader dismissal.
+- Section artwork uses semantic CSS tokens and pure wallLayout pagination; keep displays within the physical side-wall bounds to prevent overflowing galleries.
+- Keep the standalone room character mounted across navigation and disable portfolio scroll timelines for it, avoiding repeated downloads and unrelated animation targets.
+<!-- AGENT-MEMORY:END -->

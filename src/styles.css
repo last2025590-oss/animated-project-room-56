@@ -75,10 +75,17 @@
 }
 
 :root {
-  --screen-background: oklch(0.19 0.012 300);
-  --screen-foreground: oklch(0.97 0.004 300);
-  --screen-accent: oklch(0.77 0.12 300);
-  --screen-muted: oklch(0.75 0.03 300);
+  --screen-background: oklch(0.97 0.005 190);
+  --screen-foreground: oklch(0.24 0.02 190);
+  --screen-accent: oklch(0.5 0.09 185);
+  --screen-muted: oklch(0.46 0.025 190);
+  --room-surface: oklch(0.96 0.007 290);
+  --room-ink: oklch(0.24 0.02 190);
+  --room-navigation: oklch(0.98 0.004 190 / 94%);
+  --room-border: oklch(0.82 0.015 190);
+  --room-accent: oklch(0.5 0.09 185);
+  --room-overlay: oklch(0.15 0.01 190 / 65%);
+  --room-shadow: 0 12px 35px oklch(0.2 0.01 190 / 12%);
   --portfolio-text: oklch(0.94 0.005 300);
   --portfolio-muted: oklch(0.75 0.005 300);
   --portfolio-border: oklch(0.35 0.005 300);

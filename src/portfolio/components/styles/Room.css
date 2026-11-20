@@ -62,3 +62,37 @@
 .room-character .character-model::before,.room-character .character-model::after,.room-character .character-rim{display:none}
 @media (max-width:900px){.room-panel{left:16px;right:16px;width:auto;top:76px;bottom:16px}.room-character{width:220px;height:300px}}
 .room-logo-mark{width:34px;height:34px;border-radius:50%;object-fit:cover}
+
+/* Room-specific surfaces and wall navigation. */
+.room-home{color:var(--room-ink);letter-spacing:0}
+.room-home .room-stage,.room-home .room-loader{background:var(--room-surface)}
+.room-home .room-loader{position:fixed;z-index:100;transition:opacity .6s,visibility .6s}
+.room-home .room-loader-box{width:min(360px,80%);gap:16px}
+.room-loader-box h1{font-size:30px;font-weight:600;margin:10px 0 0;letter-spacing:0}
+.room-loader-box h1 span{color:var(--room-accent)}
+.room-loader-role{font-size:14px;margin:0 0 24px;color:var(--screen-muted)}
+.room-home .room-loader-logo{width:64px;height:64px;animation:none}
+.room-home .room-loader-bar{height:3px;background:var(--room-border);border-radius:0}
+.room-home .room-loader-fill{background:var(--room-accent);border-radius:0}
+.room-home .room-loader-text{display:flex;justify-content:space-between;width:100%;font-size:12px;color:var(--room-ink);letter-spacing:0;text-transform:none;opacity:1}
+.room-home .room-top{z-index:12;padding:20px 24px}
+.room-home .room-logo{font-size:24px;color:var(--room-ink)}
+.room-home .room-logo span{color:var(--room-accent)}
+.room-home .room-side{left:24px;gap:3px;background:var(--room-navigation);border:1px solid var(--room-border);border-radius:8px;padding:14px 10px;width:190px;box-sizing:border-box;z-index:12;box-shadow:var(--room-shadow)}
+.room-nav-label{font-size:10px;color:var(--screen-muted);padding:6px 12px 12px;letter-spacing:0}
+.room-home .room-side button,.room-home .room-side a{width:100%;border:0;border-radius:4px;background:transparent;color:var(--room-ink);font-size:13px;padding:10px 12px;justify-content:flex-start;height:38px;box-sizing:border-box}
+.room-home .room-side button:hover,.room-home .room-side a:hover,.room-home .room-side button[data-active=true]{color:var(--screen-background);background:var(--room-accent)}
+.room-nav-links{border-top:1px solid var(--room-border);padding-top:8px;margin-top:10px}
+.room-home .room-side .room-back{margin-bottom:8px;color:var(--room-accent)}
+.room-character-hidden{visibility:hidden;pointer-events:none}
+.room-home .room-character{width:min(30vw,340px);height:min(65vh,460px)}
+.room-section-caption{position:absolute;bottom:22px;left:calc(50% + 95px);transform:translateX(-50%);z-index:12;display:flex;align-items:center;gap:20px;background:var(--room-navigation);border:1px solid var(--room-border);border-radius:6px;padding:6px 8px 6px 18px;white-space:nowrap;font-size:13px;box-shadow:var(--room-shadow)}
+.room-pagination{display:flex;align-items:center;gap:4px;font-size:12px}
+.room-home .room-choice{position:fixed;z-index:40;background:var(--room-overlay)}
+.room-home .room-choice>div.room-choice-wide{background:var(--room-navigation);color:var(--room-ink);border-radius:8px;padding:16px;max-width:calc(100vw - 32px)}
+.room-choice-toolbar{display:flex;gap:8px;margin-bottom:12px}
+.room-choice-toolbar>button:last-child{margin-left:auto}
+.room-home .room-project iframe{border-radius:4px;background:var(--screen-background)}
+@media(max-height:600px) and (min-width:769px){.room-home .room-side{gap:0;padding:8px 10px;top:54%}.room-home .room-side button,.room-home .room-side a{height:32px}.room-nav-label{padding-bottom:5px}.room-nav-links{margin-top:5px;padding-top:4px}}
+@media(max-width:768px){.room-home .room-menu-btn{display:inline-flex;background:var(--room-navigation);color:var(--room-ink);border-color:var(--room-border);border-radius:6px}.room-home .room-side{left:16px;top:74px;width:210px;transform:none}.room-home .room-character{width:220px;height:300px}.room-section-caption{left:50%;bottom:24px;gap:8px;max-width:calc(100vw - 32px);padding-left:12px;font-size:12px}.room-home .room-top{padding:16px}.room-section-caption>span{overflow:hidden;text-overflow:ellipsis}}
+@media(prefers-reduced-motion:reduce){.room-home .room-loader{transition:none}}

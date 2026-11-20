@@ -7,7 +7,8 @@ import { decryptFile } from "./decrypt";
 const setCharacter = (
   renderer: THREE.WebGLRenderer,
   scene: THREE.Scene,
-  camera: THREE.PerspectiveCamera
+  camera: THREE.PerspectiveCamera,
+  standalone = false
 ) => {
   const loader = new GLTFLoader();
   const dracoLoader = new DRACOLoader();
@@ -39,8 +40,11 @@ const setCharacter = (
               }
             });
             resolve(gltf);
-            setCharTimeline(character, camera);
-            setAllTimeline();
+            if (!standalone) {
+              setCharTimeline(character, camera);
+              setAllTimeline();
+            }
+            URL.revokeObjectURL(blobUrl);
             const rightFoot = character.getObjectByName("footR");
             if (rightFoot) rightFoot.position.y = 3.36;
             const leftFoot = character.getObjectByName("footL");

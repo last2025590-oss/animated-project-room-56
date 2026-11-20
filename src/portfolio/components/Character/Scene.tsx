@@ -14,7 +14,7 @@ import {
 import setAnimations from "./utils/animationUtils";
 import { setProgress } from "../Loading";
 
-const Scene = () => {
+const Scene = ({ standalone = false, onReady, onError }: { standalone?: boolean; onReady?: () => void; onError?: () => void }) => {
   const canvasDiv = useRef<HTMLDivElement | null>(null);
   const hoverDivRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef(new THREE.Scene());
@@ -33,7 +33,7 @@ const Scene = () => {
         antialias: true,
       });
       renderer.setSize(container.width, container.height);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1;
       canvasDiv.current.appendChild(renderer.domElement);
@@ -51,34 +51,51 @@ const Scene = () => {
       const clock = new THREE.Clock();
       let disposed = false;
       let rafId = 0;
+      let readyFrame = false;
+      let reportedReady = false;
+      let introTimer;
+      let removeHover;
+      let resize;
 
       const light = setLighting(scene);
       let progress = setProgress((value) => {
         if (!disposed) setLoading(value);
       });
-      const { loadCharacter } = setCharacter(renderer, scene, camera);
+      const { loadCharacter } = setCharacter(renderer, scene, camera, standalone);
 
-      loadCharacter().then((gltf) => {
+      loadCharacter().then(async (gltf) => {
         if (gltf && !disposed) {
+          await light.ready;
+          if (disposed) return;
           const animations = setAnimations(gltf);
-          hoverDivRef.current && animations.hover(gltf, hoverDivRef.current);
+          if (hoverDivRef.current) removeHover = animations.hover(gltf, hoverDivRef.current);
           mixer = animations.mixer;
           let character = gltf.scene;
           setChar(character);
           scene.add(character);
           headBone = character.getObjectByName("spine006") || null;
           screenLight = character.getObjectByName("screenlight") || null;
-          progress.loaded().then(() => {
-            setTimeout(() => {
+          if (standalone) {
+            light.turnOnLights(true);
+            animations.startIntro();
+            mixer.update(0.05);
+            readyFrame = true;
+          } else progress.loaded().then(() => {
+            introTimer = setTimeout(() => {
               light.turnOnLights();
               animations.startIntro();
             }, 2500);
           });
-          window.addEventListener("resize", () =>
-            handleResize(renderer, camera, canvasDiv, character)
-          );
+          resize = () => standalone ? (() => {
+            const element = canvasDiv.current;
+            if (!element) return;
+            camera.aspect = element.clientWidth / element.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(element.clientWidth, element.clientHeight);
+          })() : handleResize(renderer, camera, canvasDiv, character);
+          window.addEventListener("resize", resize);
         }
-      }).catch(() => { if (!disposed) progress.clear(); });
+      }).catch(() => { if (!disposed) { progress.clear(); onError?.(); } });
 
       let mouse = { x: 0, y: 0 },
         interpolation = { x: 0.1, y: 0.2 };
@@ -103,9 +120,7 @@ const Scene = () => {
         });
       };
 
-      document.addEventListener("mousemove", (event) => {
-        onMouseMove(event);
-      });
+      document.addEventListener("mousemove", onMouseMove);
       const landingDiv = document.getElementById("landingDiv");
       if (landingDiv) {
         landingDiv.addEventListener("touchstart", onTouchStart);
@@ -130,17 +145,24 @@ const Scene = () => {
           mixer.update(delta);
         }
         renderer.render(scene, camera);
+        if (readyFrame && !reportedReady) {
+          reportedReady = true;
+          canvasDiv.current?.setAttribute("data-character-ready", "true");
+          onReady?.();
+        }
       };
       animate();
       return () => {
         disposed = true;
         cancelAnimationFrame(rafId);
         clearTimeout(debounce);
+        clearTimeout(introTimer);
+        removeHover?.();
+        progress.clear();
         scene.clear();
         renderer.dispose();
-        window.removeEventListener("resize", () =>
-          handleResize(renderer, camera, canvasDiv, character)
-        );
+        if (resize) window.removeEventListener("resize", resize);
+        document.removeEventListener("mousemove", onMouseMove);
         renderer.domElement.remove();
         renderer.forceContextLoss();
         if (landingDiv) {

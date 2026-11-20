@@ -8,11 +8,14 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { roomAssets, roomProjects, ROOM_PAGE_SIZE } from "./roomAssets";
 import { getSectionScreens, type ScreenSection } from "./sectionScreens";
+import { wallLayout } from "./wallLayout";
+import { drawScreen, screenImages } from "./screenArtwork";
 
 export type RoomTheme = "light" | "dark";
 export type RoomCallbacks = {
   onLoaded: () => void;
   onProgress?: (percent: number) => void;
+  onError?: () => void;
   onFocusChange: (focused: boolean) => void;
   onThemeChange: (theme: RoomTheme) => void;
   onChooseProject: (urls: { url: string; mobileUrl: string }) => void;
@@ -20,7 +23,7 @@ export type RoomCallbacks = {
 export type RoomApi = {
   showAbout: () => void;
   showProjects: (page?: number) => void;
-  showSection: (section: ScreenSection) => void;
+  showSection: (section: ScreenSection, page?: number) => void;
   projectPages: number;
   reset: () => void;
   dispose: () => void;
@@ -96,9 +99,22 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
   const dracoLoader = new DRACOLoader();
   dracoLoader.setDecoderConfig({ type: "js" });
   dracoLoader.setDecoderPath("/draco-room/");
-  const gltfLoader = new GLTFLoader();
+  let assetsReady = false, roomRendered = false;
+  const manager = new THREE.LoadingManager();
+  manager.onLoad = () => { assetsReady = true; };
+  manager.onProgress = (_url, loaded, total) => cb.onProgress?.(Math.round(loaded / total * 95));
+  manager.onError = () => cb.onError?.();
+  const gltfLoader = new GLTFLoader(manager);
   gltfLoader.setDRACOLoader(dracoLoader);
-  const textureLoader = new THREE.TextureLoader();
+  const textureLoader = new THREE.TextureLoader(manager);
+  const imageUrls = [...new Set(["skills", "experience", "certificates", "contact"].flatMap(section => getSectionScreens(section as ScreenSection).map(card => card.image).filter(Boolean)))];
+  imageUrls.forEach(url => {
+    manager.itemStart(url);
+    const image = new Image(); image.crossOrigin = "anonymous";
+    image.onload = () => { screenImages.set(url, image); manager.itemEnd(url); };
+    image.onerror = () => { manager.itemError(url); manager.itemEnd(url); };
+    image.src = url;
+  });
 
   gltfLoader.load(roomAssets.model, (room) => {
     if (disposed) return;
@@ -164,13 +180,12 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
       controls.maxAzimuthAngle = Math.PI * 0.75;
     }
     loadIntroText();
-    cb.onLoaded();
   }, (xhr) => {
     if (xhr.total) cb.onProgress?.(Math.round((xhr.loaded / xhr.total) * 100));
-  }, (err) => { console.error(err); cb.onLoaded(); });
+  }, (err) => { console.error(err); cb.onError?.(); });
 
   function loadIntroText() {
-    const loader = new FontLoader();
+    const loader = new FontLoader(manager);
     const mats = () => [new THREE.MeshPhongMaterial({ color: 0x171f27, flatShading: true }), new THREE.MeshPhongMaterial({ color: 0xffffff })];
     loader.load(roomAssets.titleFont, (font) => {
       if (disposed) return;
@@ -234,6 +249,9 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
     });
   }
   function reset() {
+    if (titleText) titleText.visible = true;
+    if (subtitleText) subtitleText.visible = true;
+    activeSection = null;
     clearSection();
     resetBookCover(); resetProjects(); cb.onFocusChange(false);
     gsap.to(camera.position, { ...defaultCameraPos, duration: 1.5 });
@@ -243,6 +261,9 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
     if (theme !== "dark") gsap.to(roomLight, { intensity: 2.5, duration: 1.5 });
   }
   function showAbout() {
+    if (titleText) titleText.visible = true;
+    if (subtitleText) subtitleText.visible = true;
+    activeSection = null;
     if (!bookCover) return;
     clearSection();
     controls.enabled = false; resetProjects();
@@ -255,6 +276,9 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
   }
   const zoomTo = (z) => gsap.to(camera, { zoom: z, duration: 1.5, onUpdate: () => camera.updateProjectionMatrix() });
   function showProjects() {
+    if (titleText) titleText.visible = true;
+    if (subtitleText) subtitleText.visible = true;
+    activeSection = null;
     clearSection();
     controls.enabled = false; resetBookCover();
     gsap.to(camera.position, { ...projectsCameraPos, duration: 1.5 });
@@ -269,86 +293,39 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
     });
   }
 
-  function showSection(section: ScreenSection) {
-    showProjects();
-    cb.onFocusChange(true);
-    projects.forEach(p => { gsap.killTweensOf(p.mesh.material); gsap.killTweensOf(p.mesh.scale); p.mesh.material.opacity = 0; p.mesh.scale.set(0, 0, 0); });
-    const cards = getSectionScreens(section);
-    const leftWall = section === "skills" || section === "certificates";
-    const isContact = section === "contact";
-    const cols = leftWall ? 6 : isContact ? 3 : 4;
-    const step = leftWall ? 0.55 : isContact ? 0.82 : 0.6;
-    const cardW = leftWall ? 0.5 : isContact ? 0.76 : 0.54;
-    const cardH = leftWall ? 0.25 : isContact ? 0.34 : 0.3;
-    const rowStep = cardH + 0.06;
-    const rows = Math.ceil(cards.length / cols);
-    const styles = getComputedStyle(document.documentElement);
-    const background = styles.getPropertyValue("--screen-background").trim();
-    const foreground = styles.getPropertyValue("--screen-foreground").trim();
-    const accent = styles.getPropertyValue("--screen-accent").trim();
-    const muted = styles.getPropertyValue("--screen-muted").trim() || foreground;
-    const top = leftWall ? 1.42 : 1.2;
-    cards.forEach((card, i) => {
-      const c = document.createElement("canvas"); c.width = 960; c.height = Math.round(960 * cardH / cardW);
-      const H = c.height;
-      const ctx = c.getContext("2d"); if (!ctx) return;
-      const texture = new THREE.CanvasTexture(c); texture.colorSpace = THREE.SRGBColorSpace;
-      const rounded = (x, y, w, h, r) => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); };
-      const draw = (image?: HTMLImageElement) => {
-        ctx.clearRect(0, 0, 960, H);
-        ctx.globalAlpha = 0.78; ctx.fillStyle = background; rounded(0, 0, 960, H, 36); ctx.fill();
-        ctx.globalAlpha = 1; ctx.strokeStyle = accent; ctx.lineWidth = 4; rounded(2, 2, 956, H - 4, 34); ctx.stroke();
-        if (isContact) {
-          const icon = { "Email me": "@", "Call me": "☎", "Location": "⌖", "Resume": "⇩", "LinkedIn": "in" }[card.title] ?? "•";
-          ctx.fillStyle = accent; ctx.beginPath(); ctx.arc(130, H / 2, 78, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = background; ctx.font = "bold 76px Arial"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-          ctx.fillText(icon, 130, H / 2 + 4); ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-          ctx.fillStyle = muted; ctx.font = "600 34px Arial"; ctx.fillText(card.title.toUpperCase(), 250, H / 2 - 40, 680);
-          ctx.fillStyle = foreground; ctx.font = "bold 50px Arial"; ctx.fillText(card.text ?? "", 250, H / 2 + 28, 680);
-          if (card.url) { ctx.fillStyle = accent; ctx.font = "600 30px Arial"; ctx.fillText("Click to open →", 250, H / 2 + 88, 680); }
-          texture.needsUpdate = true; return;
-        }
-        ctx.fillStyle = accent; ctx.fillRect(36, 0, 888, 8);
-        if (image) {
-          const ratio = Math.min(880 / image.naturalWidth, (H - 170) / image.naturalHeight);
-          const w = image.naturalWidth * ratio, h = image.naturalHeight * ratio;
-          ctx.drawImage(image, (960 - w) / 2, 24 + (H - 170 - h) / 2, w, h);
-        }
-        ctx.fillStyle = foreground; ctx.font = "bold 42px Arial";
-        ctx.fillText(card.title, 38, image ? H - 60 : 85, 884);
-        if (card.text) {
-          ctx.font = "32px Arial"; let y = 155;
-          for (const paragraph of card.text.split("\n")) {
-            let line = "";
-            for (const word of paragraph.split(" ")) {
-              const next = line ? `${line} ${word}` : word;
-              if (ctx.measureText(next).width > 880) { ctx.fillText(line, 38, y); y += 46; line = word; } else line = next;
-            }
-            ctx.fillText(line, 38, y); y += 58;
-          }
-        }
-        texture.needsUpdate = true;
-      };
-      draw();
-      if (card.image) { const image = new Image(); image.crossOrigin = "anonymous"; image.onload = () => { if (sectionMeshes.includes(mesh)) draw(image); }; image.src = card.image; }
-      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(cardW, cardH), new THREE.MeshBasicMaterial({ map: texture, transparent: true, opacity: 0.92, depthWrite: false }));
-      mesh.name = "section-screen"; mesh.userData = { section, title: card.title, url: card.url };
-      const col = i % cols, row = Math.floor(i / cols);
-      const y = top - row * rowStep;
-      if (leftWall) { mesh.rotation.y = Math.PI / 2; mesh.position.set(isMobile ? -0.24 : -0.25, y, -0.85 + (cols - 1 - col) * step); }
-      else mesh.position.set(1.1 + (col - (cols - 1) / 2) * step, y, isMobile ? -1.13 : -1.15);
-      scene.add(mesh); sectionMeshes.push(mesh);
-    });
+  let activeSection: ScreenSection | null = null, activePage = 0;
+  function fitSection() {
+    if (!activeSection) return;
+    const layout = wallLayout(getSectionScreens(activeSection).length, activePage);
+    const center = new THREE.Vector3(-0.245, 0.85 - (layout.rows - 1) * (layout.cardH + layout.gap) / 2, 0.02);
+    const menuSpace = window.innerWidth > 768 ? 220 : 32;
+    const usableAspect = Math.max(0.25, (container.clientWidth - menuSpace) / container.clientHeight);
+    const distance = Math.max(0.42, (layout.width + 0.1) / usableAspect / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))), (layout.rows * (layout.cardH + layout.gap) + 0.25) / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))));
+    const shift = window.innerWidth > 768 ? distance * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.aspect * menuSpace / container.clientWidth : 0;
+    center.z += shift;
     gsap.killTweensOf(camera.position); gsap.killTweensOf(camera.rotation); gsap.killTweensOf(camera);
     camera.zoom = 1; camera.updateProjectionMatrix();
-    const span = cols * step + 0.65; // room for the side menu
-    const wallHeight = rows * rowStep + 0.35;
-    const distance = Math.max(wallHeight, span / camera.aspect) / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
-    const cy = top - (rows - 1) * rowStep / 2;
-    const center = leftWall ? new THREE.Vector3(-0.25, cy, -0.85 + (cols - 1) * step / 2 + 0.25) : new THREE.Vector3(1.1 - 0.25, cy, -1.15);
-    const target = leftWall ? { x: center.x + distance, y: center.y, z: center.z } : { x: center.x, y: center.y, z: center.z + distance };
-    gsap.to(camera.position, { ...target, duration: 1.2, onUpdate: () => camera.lookAt(center) });
+    gsap.to(camera.position, { x: center.x + distance, y: center.y, z: center.z, duration: 1.2, onUpdate: () => camera.lookAt(center) });
     camera.lookAt(center);
+  }
+  function showSection(section: ScreenSection, page = 0) {
+    if (titleText) titleText.visible = false;
+    if (subtitleText) subtitleText.visible = false;
+    clearSection(); resetBookCover(); resetProjects(); controls.enabled = false;
+    activeSection = section; activePage = page; cb.onFocusChange(true);
+    const cards = getSectionScreens(section), layout = wallLayout(cards.length, page);
+    cards.slice(layout.start, layout.start + layout.length).forEach((card, i) => {
+      const c = document.createElement("canvas"); c.width = 800; c.height = Math.round(800 * layout.cardH / layout.cardW);
+      drawScreen(c, card, section, layout.start + i);
+      const texture = new THREE.CanvasTexture(c); texture.colorSpace = THREE.SRGBColorSpace;
+      texture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+      const mesh = new THREE.Mesh(new THREE.PlaneGeometry(layout.cardW, layout.cardH), new THREE.MeshBasicMaterial({ map: texture }));
+      mesh.name = "section-screen"; mesh.userData = { section, title: card.title, url: card.url };
+      mesh.rotation.y = Math.PI / 2;
+      const p = layout.positions[i]; mesh.position.set(p.x, p.y, p.z);
+      scene.add(mesh); sectionMeshes.push(mesh);
+    });
+    fitSection();
   }
 
   // Clicking objects inside the room
@@ -383,7 +360,7 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
   };
   // Hover zoom: enlarge the screen under the pointer and lift it off the wall
   let hovered: any = null;
-  const HOVER_SCALE = 1.45, HOVER_LIFT = 0.06;
+  const HOVER_SCALE = 1.035, HOVER_LIFT = 0.008;
   const unhover = () => {
     if (!hovered) return;
     const h = hovered; hovered = null;
@@ -421,6 +398,7 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
     camera.aspect = s.w / s.h;
     camera.updateProjectionMatrix();
     renderer.setSize(s.w, s.h, false);
+    if (activeSection) fitSection();
   };
   const ro = new ResizeObserver(onResize);
   ro.observe(container);
@@ -435,6 +413,11 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
     if (!visible) return;
     mixer?.update(dt);
     renderer.render(scene, camera);
+    if (assetsReady && !roomRendered) {
+      roomRendered = true;
+      canvas.setAttribute("data-room-ready", "true");
+      cb.onProgress?.(100); cb.onLoaded();
+    }
   });
 
   return {
