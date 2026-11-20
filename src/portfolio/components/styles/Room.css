@@ -1,0 +1,64 @@
+.room-section{position:relative;width:var(--cWidth,90%);max-width:var(--cMaxWidth,1920px);margin:80px auto;box-sizing:border-box}
+.room-head h2{font-size:70px;font-weight:500;margin:0}
+.room-head h2 span{color:var(--accentColor)}
+.room-head p{opacity:.75;max-width:620px;margin:12px 0 28px}
+.room-stage{position:relative;height:80vh;min-height:480px;border-radius:24px;overflow:hidden;background:#e8e4f0;border:1px solid rgba(255,255,255,.12);transition:background .6s}
+.room-dark .room-stage{background:#111018}
+.room-canvas{width:100%;height:100%;display:block;cursor:grab;touch-action:pan-y}
+.room-loader{position:absolute;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;background:#eae5ec;transition:opacity .8s ease,visibility .8s}
+.room-dark .room-loader{background:#0b080c}
+.room-loader-done{opacity:0;visibility:hidden;pointer-events:none}
+.room-loader-box{display:flex;flex-direction:column;align-items:center;gap:22px;width:min(320px,80%)}
+.room-loader-logo{width:72px;height:72px;object-fit:contain;animation:roomLoaderPulse 1.6s ease-in-out infinite}
+.room-loader-bar{width:100%;height:6px;border-radius:999px;background:rgba(0,0,0,.12);overflow:hidden}
+.room-dark .room-loader-bar{background:rgba(255,255,255,.12)}
+.room-loader-fill{height:100%;border-radius:999px;background:var(--accentColor,#c481ff);transition:width .3s ease}
+.room-loader-text{margin:0;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#0b080c;opacity:.7}
+.room-dark .room-loader-text{color:#fff}
+@keyframes roomLoaderPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.75}}
+.room-controls{position:absolute;left:20px;bottom:20px;display:flex;gap:10px}
+.room-controls button,.room-choice button,.room-choice a{background:#0b080c;color:#fff;border:1px solid var(--accentColor);border-radius:999px;padding:10px 20px;font-size:15px;cursor:pointer;text-decoration:none}
+.room-choice{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center}
+.room-choice>div{background:#0b080c;color:#fff;padding:28px;border-radius:18px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:360px}
+.room-choice p{width:100%;text-align:center;margin:0 0 8px}
+@media (max-width:768px){.room-head h2{font-size:42px}.room-stage{height:65vh;min-height:380px}}
+.room-home{position:fixed;inset:0;overflow:hidden;font-family:inherit}
+.room-full{position:absolute;inset:0;height:100%;min-height:0;border-radius:0;border:0}
+.room-top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:24px 32px;pointer-events:none}
+.room-top>*{pointer-events:auto}
+.room-logo{display:inline-flex;align-items:center;gap:10px;font-size:26px;font-weight:700;color:#0b080c;text-decoration:none}
+.room-logo span,.room-dark .room-logo span{color:var(--accentColor,#c481ff)}
+.room-dark .room-logo{color:#fff}
+.room-menu-btn{display:none}
+.room-side{position:absolute;left:32px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px}
+.room-side button,.room-side a,.room-menu-btn{background:#0b080c;color:#fff;border:1px solid var(--accentColor,#c481ff);border-radius:999px;padding:10px 20px;font-size:15px;cursor:pointer;text-decoration:none;text-align:left;width:max-content}
+.room-side a:hover,.room-side button:hover{background:var(--accentColor,#c481ff);color:#0b080c}
+.room-hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:14px;color:#444;margin:0;pointer-events:none}
+.room-dark .room-hint{color:#bbb}
+@media (max-width:768px){.room-menu-btn{display:block}.room-side{display:none;top:80px;transform:none;left:20px}.room-side.open{display:flex}.room-top{padding:18px 20px}.room-hint{font-size:12px;padding:0 16px}}
+.room-panel{position:absolute;top:84px;right:32px;bottom:32px;width:min(720px,calc(100% - 340px));background:rgba(11,8,12,.92);color:#fff;border:1px solid var(--accentColor,#c481ff);border-radius:20px;display:flex;flex-direction:column;z-index:20;backdrop-filter:blur(8px)}
+.room-panel-head{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.12)}
+.room-panel-head h2{margin:0;font-size:26px}
+.room-panel-head button,.room-cert button{background:transparent;color:#fff;border:1px solid var(--accentColor,#c481ff);border-radius:999px;padding:8px 16px;cursor:pointer}
+.room-panel-body{overflow:auto;padding:22px;line-height:1.6}
+.room-panel-body a{color:var(--accentColor,#c481ff)}
+.room-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.room-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px;color:#fff;text-align:left;cursor:pointer}
+.room-card:hover{border-color:var(--accentColor,#c481ff)}
+.room-card img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px}
+.room-card h4{margin:8px 0 2px}.room-card p{margin:0;opacity:.7;font-size:14px}
+.room-item{margin-bottom:18px}.room-item h4{margin:0 0 4px}.room-item small{opacity:.7;font-weight:400}
+.room-skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px}
+.room-skills div{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;background:rgba(255,255,255,.05);border-radius:12px;text-transform:capitalize;font-size:14px}
+.room-skills img{width:40px;height:40px}
+.room-project iframe,.room-project img,.room-cert img{width:100%;height:60vh;border:0;border-radius:12px;background:#fff;object-fit:contain}
+.room-tech{color:var(--accentColor,#c481ff)}
+.room-cert{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.room-choice .room-project{width:min(900px,90vw)}
+.room-choice>div.room-choice-wide{max-width:none;display:block}
+.room-character{position:absolute;right:0;bottom:0;width:380px;height:520px;pointer-events:none;z-index:5}
+.room-character .character-container{position:absolute;inset:0}
+.room-home .room-character .character-model{position:absolute;left:0;bottom:0;transform:none;width:100%;height:100%;max-height:none;z-index:1}
+.room-character .character-model::before,.room-character .character-model::after,.room-character .character-rim{display:none}
+@media (max-width:900px){.room-panel{left:16px;right:16px;width:auto;top:76px;bottom:16px}.room-character{width:220px;height:300px}}
+.room-logo-mark{width:34px;height:34px;border-radius:50%;object-fit:cover}
