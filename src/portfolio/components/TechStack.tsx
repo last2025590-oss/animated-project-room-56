@@ -14,14 +14,14 @@ import {
 
 const textureLoader = new THREE.TextureLoader();
 const imageUrls = [
-  "/__l5e/assets-v1/65c68943-cd15-403b-a68e-a4b1a7367179/react2.webp",
-  "/__l5e/assets-v1/4343cea7-cebf-4706-ba77-b7808ef85d38/next2.webp",
-  "/__l5e/assets-v1/21f01be6-6904-4a7f-b8bb-d05c29107509/node2.webp",
-  "/__l5e/assets-v1/b6ed96bf-de85-4e6b-9377-e5dab1c35859/express.webp",
-  "/__l5e/assets-v1/c67bbb44-7af2-4d10-b247-9064a082f47e/mongo.webp",
-  "/__l5e/assets-v1/814b8c6d-b75b-435a-9284-5216dfc3f82e/mysql.webp",
-  "/__l5e/assets-v1/02bf4b2a-b3d9-4daa-b5eb-ded08a111ca9/typescript.webp",
-  "/__l5e/assets-v1/d79df114-86b7-495b-81ae-5db61d2618b1/javascript.webp",
+  "/__l5e/assets-v1/a177e044-e781-41f3-b0e3-7115eef99f23/react2.webp",
+  "/__l5e/assets-v1/ff78c398-b655-464b-aa5f-8f25d2e5aa7f/next2.webp",
+  "/__l5e/assets-v1/686e62d1-b820-4d70-80d2-dc951c1752b1/node2.webp",
+  "/__l5e/assets-v1/05f8e587-85c3-45d0-95d4-19073cf7014f/express.webp",
+  "/__l5e/assets-v1/8e78333b-c55e-4d9d-8656-9317e910fdd3/mongo.webp",
+  "/__l5e/assets-v1/5cd72998-9169-44eb-b9e9-8a0a8d598017/mysql.webp",
+  "/__l5e/assets-v1/60cd0ffd-70c9-43f4-bf0d-88eec71a5126/typescript.webp",
+  "/__l5e/assets-v1/b5f3e2ae-c3d5-40c6-869a-62c406446552/javascript.webp",
 ];
 const textures = imageUrls.map((url) => textureLoader.load(url));
 
@@ -202,7 +202,7 @@ const TechStack = () => {
           ))}
         </Physics>
         <Environment
-          files="/__l5e/assets-v1/f00ad24f-e6d8-4fbe-9506-f23afb679304/char_enviorment.hdr"
+          files="/__l5e/assets-v1/b827f82f-3bfc-4121-a0c9-78fd7c81bd42/char_enviorment.hdr"
           environmentIntensity={0.5}
           environmentRotation={[0, 4, 2]}
         />

@@ -46,7 +46,7 @@ const RoomHome = () => {
         <canvas ref={canvas} className="room-canvas" />
         <div className={`room-loader ${loaded ? "room-loader-done" : ""}`}>
           <div className="room-loader-box">
-            <img src="/__l5e/assets-v1/009c6851-64ec-462b-8156-f8e69973ace8/logo-e.png" alt="" className="room-loader-logo" />
+            <img src="/__l5e/assets-v1/12684db0-453d-44ad-a25d-d40c19d4edcd/logo-e.png" alt="" className="room-loader-logo" />
             <div className="room-loader-bar">
               <div className="room-loader-fill" style={{ width: `${progress}%` }} />
             </div>
@@ -55,7 +55,7 @@ const RoomHome = () => {
         </div>
       </div>
       <header className="room-top">
-        <a href="/" className="room-logo"><img src="/__l5e/assets-v1/009c6851-64ec-462b-8156-f8e69973ace8/logo-e.png" alt="" className="room-logo-mark" />Ezadin<span>.</span></a>
+        <a href="/" className="room-logo"><img src="/__l5e/assets-v1/12684db0-453d-44ad-a25d-d40c19d4edcd/logo-e.png" alt="" className="room-logo-mark" />Ezadin<span>.</span></a>
         <button className="room-menu-btn" onClick={() => setOpen(!open)}>{open ? "Close" : "Menu"}</button>
       </header>
       <nav className={`room-side ${open ? "open" : ""}`}>

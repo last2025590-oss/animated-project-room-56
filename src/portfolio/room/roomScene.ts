@@ -129,7 +129,7 @@ export function createRoom(container: HTMLElement, canvas: HTMLCanvasElement, cb
         bookCover = child.children[0];
         const coverMats = Array.isArray(bookCover.material) ? bookCover.material : [bookCover.material];
         // E logo cover served from public/ so it loads in every environment
-        textureLoader.load("/__l5e/assets-v1/02a7980c-956b-47c5-b8cb-d1d0ae4ef439/book-cover-e.png", (t) => {
+        textureLoader.load("/__l5e/assets-v1/b360632e-e373-478d-b72d-bc38d465cb51/book-cover-e.png", (t) => {
           t.flipY = false; t.colorSpace = THREE.SRGBColorSpace;
           coverMats.forEach((m) => { if (m?.map) { m.map = t; m.needsUpdate = true; } });
         });

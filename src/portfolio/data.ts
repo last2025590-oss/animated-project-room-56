@@ -17,7 +17,7 @@ export const projects: Project[] = [
     subtitle: "E-commerce Platform",
     description:
       "A full-featured e-commerce platform with product listings, cart management, and secure checkout.",
-    image: "/__l5e/assets-v1/c692557f-4780-455b-943a-90aac121330a/social.png",
+    image: "/__l5e/assets-v1/478e0825-1d3c-4843-b779-dd797fd6e599/social.png",
     technologies: ["React.js", "MongoDB", "Node.js", "Express.js", "CSS"],
     githubUrl: "https://github.com/ezadin2/proshop-demo",
   },
@@ -27,7 +27,7 @@ export const projects: Project[] = [
     subtitle: "Delivery Management Platform",
     description:
       "An Ethiopian delivery platform with customer booking, real-time tracking, admin analytics, and a driver operations interface.",
-    image: "/__l5e/assets-v1/6b6d606e-659b-4e27-9d68-e92ec8f6464a/quran.png",
+    image: "/__l5e/assets-v1/74baa126-9f69-4474-b301-428f5a5830f2/quran.png",
     technologies: ["React.js", "TypeScript", "Node.js", "Tailwind CSS", "Express.js"],
     liveUrl: "https://hasset-delivery-front-end-side.onrender.com/",
     githubUrl: "https://github.com/ezadin2/Hasset_Delivery_Front-End_Side",
@@ -38,7 +38,7 @@ export const projects: Project[] = [
     subtitle: "Complete E-commerce System",
     description:
       "A secure cross-platform shopping experience with verified Firebase authentication, product browsing, cart management, orders, and user accounts.",
-    image: "/__l5e/assets-v1/c30b23b7-fa05-4db0-9bc8-5ffa7eebc7da/notes.png",
+    image: "/__l5e/assets-v1/5e1253c8-cbf7-4561-b672-51bfc8e57241/notes.png",
     technologies: ["Flutter", "Firebase", "Node.js", "MongoDB"],
     liveUrl: "https://adminpanel-bx43q6fid-ezadin-badrus-projects.vercel.app/",
   },
@@ -48,7 +48,7 @@ export const projects: Project[] = [
     subtitle: "Data Privacy Compliance",
     description:
       "A Streamlit tool built at INSA Summer Camp for PII scanning, anonymization, NLP entity detection, and automated compliance scoring.",
-    image: "/__l5e/assets-v1/d027f46a-f9f7-4c73-b5e3-ceb8c5766a2a/trello.png",
+    image: "/__l5e/assets-v1/246f9fca-0ea5-4df7-be4c-38ab2ade769f/trello.png",
     technologies: ["Python", "Streamlit", "NLP", "Pandas"],
     githubUrl: "https://github.com/ezadin2",
   },
@@ -58,7 +58,7 @@ export const projects: Project[] = [
     subtitle: "Cross-platform Audio Experience",
     description:
       "An audio-based mobile application showcasing sound features, modern UI, and responsive state management.",
-    image: "/__l5e/assets-v1/463f0d89-5871-49bd-9ee7-91cc99eb2a65/portfolio.png",
+    image: "/__l5e/assets-v1/ab978cef-13f2-48f2-8140-c10020b127c3/portfolio.png",
     technologies: ["Flutter", "Firebase", "Dart", "State Management"],
     githubUrl: "https://github.com/ezadin2/Audio-player",
   },
@@ -68,7 +68,7 @@ export const projects: Project[] = [
     subtitle: "Real-time Messaging",
     description:
       "A real-time chat application with a modern interface, user messaging, and a responsive design.",
-    image: "/__l5e/assets-v1/e9352b1b-4df4-41d5-ab65-ce967f2c0fc0/chatApp.png",
+    image: "/__l5e/assets-v1/8e2ba7f2-1f42-4c82-ad79-29c4b3396db7/chatApp.png",
     technologies: ["Next.js", "Node.js", "Socket.io", "Tailwind CSS"],
     liveUrl: "https://nextjs-setup-gilt.vercel.app/",
     githubUrl: "https://github.com/ezadin2/nextjs-setup",
@@ -79,7 +79,7 @@ export const projects: Project[] = [
     subtitle: "Rental Marketplace",
     description:
       "A trust-first rental marketplace for Ethiopia where people find homes, vehicles and equipment from verified owners, with search by neighborhood, category and price.",
-    image: "/__l5e/assets-v1/b44be9ac-14b9-478a-aea7-2a7796047673/techxpert.png",
+    image: "/__l5e/assets-v1/df29c210-7d72-4532-b499-a5a38acc8b83/techxpert.png",
     technologies: ["React.js", "TypeScript", "Tailwind CSS", "Node.js"],
     liveUrl: "https://techxpert-rental-market-place.vercel.app/",
   },
@@ -89,7 +89,7 @@ export const projects: Project[] = [
     subtitle: "Quran Reading App",
     description:
       "A Quran study companion with all 114 surahs, translations, recitations, azkar and duas, prayer times, a Ramadan tracker, hadith and bookmarks.",
-    image: "/__l5e/assets-v1/b534949d-0dc5-47c1-9202-fe007473db21/my-quran-onrender.png",
+    image: "/__l5e/assets-v1/fbe8709b-e1b7-457b-99f5-d4e8c59ef361/my-quran-onrender.png",
     technologies: ["React.js", "Tailwind CSS", "REST API"],
     liveUrl: "https://my-quran.onrender.com/",
   },
@@ -99,7 +99,7 @@ export const projects: Project[] = [
     subtitle: "Tech Education Platform",
     description:
       "An online learning platform offering industry-ready courses in web development, AI and mobile, with course listings, instructors and student sign-up.",
-    image: "/__l5e/assets-v1/41f4f321-1ed8-4c0a-a5b9-2cd27dc76aaf/qemer.png",
+    image: "/__l5e/assets-v1/cb52e160-98ab-46cc-885f-acb0617f569c/qemer.png",
     technologies: ["React.js", "Tailwind CSS", "Node.js"],
     liveUrl: "https://qemer-final-project.vercel.app/",
   },
@@ -109,7 +109,7 @@ export const projects: Project[] = [
     subtitle: "Social Media Page",
     description:
       "A Facebook-style social page with stories, a post feed, events, friends sidebar and chat list.",
-    image: "/__l5e/assets-v1/489f69c3-8d3e-4f75-9984-3c5c55806fb2/qemer-fb.png",
+    image: "/__l5e/assets-v1/0ae98ff5-a93a-4a05-ab14-42b9bdb9ab27/qemer-fb.png",
     technologies: ["HTML", "CSS", "JavaScript"],
     liveUrl: "https://ezadin2.github.io/qemer_tech_project_facebookpage/",
   },
@@ -126,51 +126,51 @@ export const certificates: Certificate[] = [
   {
     id: 1,
     title: "Certificate of Appreciation",
-    image: "/__l5e/assets-v1/a53745e5-7cbd-4536-a4e8-3224cb7edaac/appr2.png",
-    link: "/__l5e/assets-v1/a53745e5-7cbd-4536-a4e8-3224cb7edaac/appr2.png",
+    image: "/__l5e/assets-v1/61798b11-a925-42a4-b236-988790c7b5f7/appr2.png",
+    link: "/__l5e/assets-v1/61798b11-a925-42a4-b236-988790c7b5f7/appr2.png",
   },
   {
     id: 2,
     title: "Academic Achievement",
-    image: "/__l5e/assets-v1/406e5033-9b73-4567-9e2b-929a857901f0/appre1.png",
-    link: "/__l5e/assets-v1/406e5033-9b73-4567-9e2b-929a857901f0/appre1.png",
+    image: "/__l5e/assets-v1/9fc8ddbb-e63a-4a27-9590-f7715f68c31a/appre1.png",
+    link: "/__l5e/assets-v1/9fc8ddbb-e63a-4a27-9590-f7715f68c31a/appre1.png",
   },
   {
     id: 3,
     title: "Professional Certificate",
-    image: "/__l5e/assets-v1/e82a834b-0f34-4846-aaff-28bc378dc2ea/tempo.png",
-    link: "/__l5e/assets-v1/e82a834b-0f34-4846-aaff-28bc378dc2ea/tempo.png",
+    image: "/__l5e/assets-v1/7f5a34d6-6829-414f-9f36-461b111537f2/tempo.png",
+    link: "/__l5e/assets-v1/7f5a34d6-6829-414f-9f36-461b111537f2/tempo.png",
   },
   {
     id: 4,
     title: "Huawei Certificate",
-    image: "/__l5e/assets-v1/2777e8c2-c74d-4935-8c84-935631670547/huawe.png",
-    link: "/__l5e/assets-v1/2777e8c2-c74d-4935-8c84-935631670547/huawe.png",
+    image: "/__l5e/assets-v1/a6c3b6a9-812d-42c9-bf8e-20cd84c850e6/huawe.png",
+    link: "/__l5e/assets-v1/a6c3b6a9-812d-42c9-bf8e-20cd84c850e6/huawe.png",
   },
   {
     id: 5,
     title: "Cisco Certificate",
-    image: "/__l5e/assets-v1/9c9d800a-df9c-484f-a977-1dcfe7a84bbc/cisco.png",
-    link: "/__l5e/assets-v1/9c9d800a-df9c-484f-a977-1dcfe7a84bbc/cisco.png",
+    image: "/__l5e/assets-v1/1ae6c8bc-961b-4505-8758-6052e5aaea69/cisco.png",
+    link: "/__l5e/assets-v1/1ae6c8bc-961b-4505-8758-6052e5aaea69/cisco.png",
   },
   {
     id: 6,
     title: "Development Certificate",
-    image: "/__l5e/assets-v1/1848a18d-02d5-4315-96e3-c6b61d3c5106/bago.png",
-    link: "/__l5e/assets-v1/1848a18d-02d5-4315-96e3-c6b61d3c5106/bago.png",
+    image: "/__l5e/assets-v1/42c52858-b8a9-46d0-b027-b0b5b8e7f687/bago.png",
+    link: "/__l5e/assets-v1/42c52858-b8a9-46d0-b027-b0b5b8e7f687/bago.png",
   },
   {
     id: 7,
     title: "Technical Certificate",
-    image: "/__l5e/assets-v1/01f68590-d13b-4744-9215-702cc56f7618/mosq2.png",
-    link: "/__l5e/assets-v1/01f68590-d13b-4744-9215-702cc56f7618/mosq2.png",
+    image: "/__l5e/assets-v1/33b70415-1e6c-4554-96ea-1b25a19eff36/mosq2.png",
+    link: "/__l5e/assets-v1/33b70415-1e6c-4554-96ea-1b25a19eff36/mosq2.png",
   },
   {
     id: 8,
     title: "Oracle Certificate",
-    image: "/__l5e/assets-v1/a4cc3f68-4f50-4653-a859-e7883819d424/orac.png",
-    link: "/__l5e/assets-v1/a4cc3f68-4f50-4653-a859-e7883819d424/orac.png",
+    image: "/__l5e/assets-v1/b41a4d58-f86a-4109-8039-d8ce48a0a96c/orac.png",
+    link: "/__l5e/assets-v1/b41a4d58-f86a-4109-8039-d8ce48a0a96c/orac.png",
   },
 ];
 
-export const resumeUrl = "/__l5e/assets-v1/68c7bac3-d0be-4d6e-bc84-2798a925fdea/Ezadin_Badiru_Resume.pdf";
+export const resumeUrl = "/__l5e/assets-v1/aa0f6e14-71d6-4885-808c-322ba52607db/Ezadin_Badiru_Resume.pdf";

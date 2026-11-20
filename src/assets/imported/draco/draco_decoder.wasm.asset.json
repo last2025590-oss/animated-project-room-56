@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "bd790f5e-26a6-4bb2-9f01-d589594888c3",
-  "project_id": "8841975a-4f72-45d6-b5d2-4148ed37e006",
-  "url": "/__l5e/assets-v1/bd790f5e-26a6-4bb2-9f01-d589594888c3/draco_decoder.wasm",
-  "r2_key": "a/v1/8841975a-4f72-45d6-b5d2-4148ed37e006/bd790f5e-26a6-4bb2-9f01-d589594888c3/draco_decoder.wasm",
+  "asset_id": "7df3eba9-8e3a-49e7-bf5c-5c4a4f5a4a2d",
+  "project_id": "ed1392e9-30a8-4b41-b589-bcb7aebee049",
+  "url": "/__l5e/assets-v1/7df3eba9-8e3a-49e7-bf5c-5c4a4f5a4a2d/draco_decoder.wasm",
+  "r2_key": "a/v1/ed1392e9-30a8-4b41-b589-bcb7aebee049/7df3eba9-8e3a-49e7-bf5c-5c4a4f5a4a2d/draco_decoder.wasm",
   "original_filename": "draco_decoder.wasm",
   "size": 285948,
   "content_type": "application/wasm",
-  "created_at": "2026-11-19T13:49:59Z"
+  "created_at": "2026-11-20T06:23:44Z"
 }
